@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The love formula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Literata:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper: #F1E6D3;
+    --paper-dark: #E7D9C1;
+    --ink: #241C1F;
+    --ink-soft: #4A3F3C;
+    --muted: #7C6E60;
+    --seal: #8B2F2F;
+    --seal-dark: #6E2222;
+    --gold: #B08A4E;
+    --rose: #C97B76;
+    --radius: 4px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: #E3D6BE;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(0,0,0,0.035) 0, transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(0,0,0,0.035) 0, transparent 45%);
+    color: var(--ink);
+    font-family: 'Literata', serif;
+    min-height: 100vh;
+    padding: 4rem 1.25rem 6rem;
+    line-height: 1.6;
+  }
+
+  .wrap{
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  /* ---------- hero ---------- */
+
+  .eyebrow{
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--seal);
+    text-align: center;
+    margin: 0 0 0.9rem;
+  }
+
+  h1{
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    text-align: center;
+    line-height: 1.08;
+    margin: 0 0 1.1rem;
+    color: var(--ink);
+  }
+
+  .lede{
+    text-align: center;
+    max-width: 460px;
+    margin: 0 auto 3.2rem;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+  }
+
+  .lede em{
+    font-style: italic;
+    color: var(--seal);
+  }
+
+  /* ---------- stacked letters ---------- */
+
+  .letter-stack{
+    position: relative;
+    margin-bottom: 2.5rem;
+  }
+
+  .letter-stack::before,
+  .letter-stack::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--paper-dark);
+    border: 1px solid rgba(36,28,31,0.08);
+    border-radius: 3px;
+  }
+
+  .letter-stack::before{
+    transform: rotate(-2.4deg) translateY(6px);
+    z-index: 0;
+  }
+
+  .letter-stack::after{
+    transform: rotate(1.6deg) translateY(3px);
+    z-index: 1;
+    background: #ECDFC7;
+  }
+
+  .letter{
+    position: relative;
+    z-index: 2;
+    background: var(--paper);
+    border: 1px solid rgba(36,28,31,0.1);
+    border-radius: 3px;
+    padding: 2.6rem 2.2rem;
+    box-shadow: 0 18px 40px -22px rgba(36,28,31,0.45);
+  }
+
+  @media (max-width: 480px){
+    .letter{ padding: 2rem 1.35rem; }
+  }
+
+  .field{
+    margin-bottom: 1.9rem;
+  }
+
+  .field-label{
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .field-label .n{
+    color: var(--seal);
+  }
+
+  /* ---------- option chips ---------- */
+
+  .chips{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.55rem;
+  }
+
+  .chip{
+    position: relative;
+  }
+
+  .chip input{
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .chip label{
+    display: block;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid rgba(36,28,31,0.22);
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    background: rgba(255,255,255,0.25);
+  }
+
+  .chip input:checked + label{
+    border-color: var(--seal);
+    background: rgba(139,47,47,0.09);
+    color: var(--seal);
+    font-weight: 500;
+  }
+
+  .chip input:focus-visible + label{
+    outline: 2px solid var(--seal);
+    outline-offset: 2px;
+  }
+
+  .chip label:hover{
+    border-color: rgba(139,47,47,0.5);
+  }
+
+  /* ---------- touch toggle ---------- */
+
+  .toggle-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .toggle-row .field-label{ margin-bottom: 0; }
+
+  .switch{
+    position: relative;
+    width: 46px;
+    height: 26px;
+    flex: none;
+  }
+
+  .switch input{
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .switch .track{
+    position: absolute;
+    inset: 0;
+    background: rgba(36,28,31,0.18);
+    border-radius: 999px;
+    transition: background 0.15s ease;
+  }
+
+  .switch .thumb{
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    transition: transform 0.18s ease;
+  }
+
+  .switch input:checked ~ .track{ background: var(--seal); }
+  .switch input:checked ~ .thumb{ transform: translateX(20px); }
+
+  /* ---------- range ---------- */
+
+  input[type="range"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3px;
+    background: rgba(36,28,31,0.22);
+    border-radius: 2px;
+    margin: 0.6rem 0 0.4rem;
+  }
+
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--seal);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1px rgba(139,47,47,0.4);
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--seal);
+    border: 2px solid var(--paper);
+    cursor: pointer;
+  }
+
+  .range-labels{
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- seal button ---------- */
+
+  .seal-btn{
+    display: block;
+    margin: 2.4rem auto 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #F3E7D4;
+    background: var(--seal);
+    border: none;
+    padding: 0.9rem 2.2rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  .seal-btn:hover{ background: var(--seal-dark); }
+  .seal-btn:active{ transform: scale(0.97); }
+
+  /* ---------- result ---------- */
+
+  .result{
+    margin-top: 2.8rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .result.show{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .seal-stamp{
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 1.1rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--seal-dark), var(--seal) 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #F3E7D4;
+    box-shadow:
+      0 0 0 3px rgba(176,138,78,0.55),
+      0 0 0 5px rgba(176,138,78,0.25),
+      0 14px 26px -12px rgba(36,28,31,0.55);
+    transform: scale(0.4) rotate(-14deg);
+    transition: transform 0.45s cubic-bezier(.2,1.3,.4,1);
+  }
+
+  .result.show .seal-stamp{
+    transform: scale(1) rotate(-6deg);
+  }
+
+  .seal-stamp .num{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+
+  .seal-stamp .of{
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .verdict{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--seal);
+    margin: 0 0 0.6rem;
+  }
+
+  .breakdown{
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  footer{
+    text-align: center;
+    margin-top: 3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .seal-stamp, .result{ transition: none !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <p class="eyebrow">A field guide to affection</p>
+  <h1>How much do<br>they really love you?</h1>
+  <p class="lede">Not all "I love you"s are equal. This weighs <em>who said it first</em> against <em>how they said it</em> &mdash; because the first person to say it is always taking the bigger risk.</p>
+
+  <div class="letter-stack">
+    <form class="letter" id="loveForm">
+
+      <div class="field">
+        <span class="field-label"><span class="n">01</span> &middot; who said it first</span>
+        <div class="chips" data-group="firstSayer">
+          <div class="chip"><input type="radio" name="firstSayer" value="20" id="fs1" checked><label for="fs1">They did</label></div>
+          <div class="chip"><input type="radio" name="firstSayer" value="8" id="fs2"><label for="fs2">I did</label></div>
+          <div class="chip"><input type="radio" name="firstSayer" value="25" id="fs3"><label for="fs3">Same moment</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field-label"><span class="n">02</span> &middot; the setting</span>
+        <div class="chips" data-group="setting">
+          <div class="chip"><input type="radio" name="setting" value="20" id="st1" checked><label for="st1">Out of nowhere</label></div>
+          <div class="chip"><input type="radio" name="setting" value="10" id="st2"><label for="st2">Right after I said it</label></div>
+          <div class="chip"><input type="radio" name="setting" value="14" id="st3"><label for="st3">Quiet, ordinary moment</label></div>
+          <div class="chip"><input type="radio" name="setting" value="6" id="st4"><label for="st4">Mid-argument or making up</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field-label"><span class="n">03</span> &middot; how it was delivered</span>
+        <div class="chips" data-group="delivery">
+          <div class="chip"><input type="radio" name="delivery" value="18" id="dl1" checked><label for="dl1">In person, eye to eye</label></div>
+          <div class="chip"><input type="radio" name="delivery" value="12" id="dl2"><label for="dl2">On a phone call</label></div>
+          <div class="chip"><input type="radio" name="delivery" value="6" id="dl3"><label for="dl3">By text or DM</label></div>
+          <div class="chip"><input type="radio" name="delivery" value="16" id="dl4"><label for="dl4">A written note or letter</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field-label"><span class="n">04</span> &middot; their tone</span>
+        <div class="chips" data-group="tone">
+          <div class="chip"><input type="radio" name="tone" value="16" id="tn1" checked><label for="tn1">Confident and clear</label></div>
+          <div class="chip"><input type="radio" name="tone" value="18" id="tn2"><label for="tn2">A nervous whisper</label></div>
+          <div class="chip"><input type="radio" name="tone" value="6" id="tn3"><label for="tn3">Joking, half laughing</label></div>
+          <div class="chip"><input type="radio" name="tone" value="3" id="tn4"><label for="tn4">While drunk</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="toggle-row">
+          <span class="field-label"><span class="n">05</span> &middot; said with a touch, hug, or held hands</span>
+          <label class="switch">
+            <input type="checkbox" id="touch">
+            <span class="track"></span>
+            <span class="thumb"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom: 0;">
+        <span class="field-label"><span class="n">06</span> &middot; how often they say it now</span>
+        <input type="range" min="0" max="10" value="5" step="1" id="freq">
+        <div class="range-labels"><span>Rarely</span><span>Constantly</span></div>
+      </div>
+
+      <button type="button" class="seal-btn" id="sealBtn">Seal it</button>
+
+    </form>
+  </div>
+
+  <div class="result" id="result">
+    <div class="seal-stamp">
+      <span class="num" id="scoreNum">0</span>
+      <span class="of">OUT OF 100</span>
+    </div>
+    <p class="verdict" id="verdict"></p>
+    <p class="breakdown" id="breakdown"></p>
+  </div>
+
+  <footer>An unscientific instrument. Handle with care.</footer>
+
+</div>
+
+<script>
+  const form = document.getElementById('loveForm');
+  const resultEl = document.getElementById('result');
+  const scoreNum = document.getElementById('scoreNum');
+  const verdictEl = document.getElementById('verdict');
+  const breakdownEl = document.getElementById('breakdown');
+  const sealBtn = document.getElementById('sealBtn');
+
+  function val(name){
+    const el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? Number(el.value) : 0;
+  }
+
+  function calc(){
+    const firstSayer = val('firstSayer');
+    const setting = val('setting');
+    const delivery = val('delivery');
+    const tone = val('tone');
+    const touch = document.getElementById('touch').checked ? 8 : 0;
+    const freq = Number(document.getElementById('freq').value);
+    const freqScore = freq * 1.3;
+
+    const raw = firstSayer + setting + delivery + tone + touch + freqScore;
+    const score = Math.min(100, Math.round(raw));
+
+    let verdict;
+    if (score >= 85) verdict = "Head over heels.";
+    else if (score >= 65) verdict = "Properly smitten.";
+    else if (score >= 45) verdict = "Genuinely fond.";
+    else if (score >= 25) verdict = "Warming up.";
+    else verdict = "Still testing the water.";
+
+    scoreNum.textContent = score;
+    verdictEl.textContent = verdict;
+    breakdownEl.innerHTML =
+      'courage of going first ' + firstSayer +
+      ' &middot; setting ' + setting +
+      ' &middot; delivery ' + delivery +
+      ' &middot; tone ' + tone +
+      ' &middot; touch ' + touch +
+      ' &middot; frequency ' + freqScore.toFixed(1);
+
+    resultEl.classList.add('show');
+  }
+
+  sealBtn.addEventListener('click', calc);
+</script>
+
+</body>
+</html>
